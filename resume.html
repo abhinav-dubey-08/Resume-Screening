@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Category Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d9fdd3; /* Light green background */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #0c5a2b; /* Dark green container background */
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        ul {
+            margin: 0 auto;
+            padding: 0 20px;
+            list-style-type: disc;
+            font-size: 16px;
+            color: white;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        ul li:hover {
+            color: #ffeb3b; /* Yellow hover effect */
+            transition: color 0.3s ease-in-out;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #0073e6; /* Blue button background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005bb5; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly larger on hover */
+        }
+
+        hr {
+            border-top: 1px solid white;
+            margin: 20px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .left-align {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Resume Screening </h1>
+        <p>This system supports TXT and PDF files to be uploaded. It works on the following functionalities:</p>
+        <ul>
+            <li>Resume Categorization</li>
+            <li>Resume Job Recommendation</li>
+            <li>Resume Parsing (Information Extraction)</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Upload Your Resume</h2>
+        <form action="/pred" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
+            <input type="file" name="resume" accept=".pdf, .txt" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if message %}
+        <p class="text-center" style="color: #ffeb3b; font-weight: bold;">{{message}}</p>
+        {% endif %}
+
+        {% if predicted_category %}
+        <hr>
+        <p class="text-center"><b><u>Category:</u></b> {{predicted_category}}</p>
+        <p class="text-center"><b><u>Recommended Job:</u></b> {{recommended_job}}</p>
+        <hr>
+        <h2 class="left-align">Extracted Information</h2>
+        <p class="left-align"><b><u>Name:</u></b> {{name}}</p>
+        <p class="left-align"><b><u>Phone No:</u></b> {{phone}}</p>
+        <p class="left-align"><b><u>Email:</u></b> {{email}}</p>
+
+        {% if extracted_skills %}
+        <h3 class="left-align">Skills</h3>
+        <ul class="left-align">
+            {% for skill in extracted_skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="left-align" style="color: #ffeb3b; font-weight: bold;">No skills found...</p>
+        {% endif %}
+
+
+        {% endif %}
+    </div>
+</body>
+
+</html>
